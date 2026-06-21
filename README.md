@@ -6,11 +6,33 @@ Este repositório contém os scripts de automação de instalação e configura�
 
 ## Membros da Equipe
 
-| Nome | Matrícula |
-| :--- | :--- |
-| **Gabriel Lopes** | 231012129 |
-| **Guilherme Storch** | 211030765 |
-| **Rodrigo Amaral** | 231011810 |
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" width="180">
+        <a href="https://github.com/#">
+          <img src="https://github.com/github.png" width="100" height="100" style="border-radius: 50%;" alt="Gabriel Lopes"/><br />
+          <b>Gabriel Lopes</b>
+        </a><br />
+        Matrícula: 231012129
+      </td>
+      <td align="center" width="180">
+        <a href="https://github.com/storch7">
+          <img src="https://github.com/storch7.png" width="100" height="100" style="border-radius: 50%;" alt="Guilherme Storch"/><br />
+          <b>Guilherme Storch</b>
+        </a><br />
+        Matrícula: 211030765
+      </td>
+      <td align="center" width="180">
+        <a href="https://github.com/rodrigoFAmaral">
+          <img src="https://github.com/rodrigoFAmaral.png" width="100" height="100" style="border-radius: 50%;" alt="Rodrigo Amaral"/><br />
+          <b>Rodrigo Amaral</b>
+        </a><br />
+        Matrícula: 231011810
+      </td>
+    </tr>
+  </table>
+</div>
 
 ---
 
