@@ -30,6 +30,13 @@ Este repositório contém os scripts de automação de instalação e configura�
         </a><br />
         Matrícula: 231011810
       </td>
+      <td align="center" width="180">
+        <a href="https://github.com/FelipeNunesdM">
+          <img src="https://github.com/FelipeNunesdM.png" width="100" height="100" style="border-radius: 50%;" alt="Felipe Nunes"/><br />
+          <b>Felipe Nunes</b>
+        </a><br />
+        Matrícula: 202023627
+      </td>
     </tr>
   </table>
 </div>
