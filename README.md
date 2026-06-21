@@ -10,8 +10,8 @@ Este repositório contém os scripts de automação de instalação e configura�
   <table>
     <tr>
       <td align="center" width="180">
-        <a href="https://github.com/#">
-          <img src="https://github.com/github.png" width="100" height="100" style="border-radius: 50%;" alt="Gabriel Lopes"/><br />
+        <a href="https://github.com/BrzGab">
+          <img src="https://github.com/BrzGab.png" width="100" height="100" style="border-radius: 50%;" alt="Gabriel Lopes"/><br />
           <b>Gabriel Lopes</b>
         </a><br />
         Matrícula: 231012129
