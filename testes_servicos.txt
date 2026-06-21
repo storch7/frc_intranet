@@ -1,0 +1,161 @@
+=========================================================
+          COMANDOS DE TESTE - INTRANET FRC
+=========================================================
+Domínio: tapingando.com.br
+IP Servidor S (DNS/DHCP/E-mail/WWW): 172.16.0.2
+=========================================================
+
+---------------------------------------------------------
+ 1. TESTES DE DNS (BIND9)
+---------------------------------------------------------
+
+# A. Validação de Sintaxe (Rodar no Servidor S)
+# Verifica se há erros de digitação nos arquivos de configuração.
+sudo named-checkconf
+sudo named-checkzone tapingando.com.br /etc/bind/db.tapingando.com.br
+sudo named-checkzone 16.172.in-addr.arpa /etc/bind/db.172.16
+sudo named-checkzone 168.192.in-addr.arpa /etc/bind/db.192.168
+
+# B. Consultas Diretas (Rodar nos Clientes ou no Servidor)
+# Interroga o servidor DNS diretamente.
+dig @172.16.0.2 www.tapingando.com.br
+dig @172.16.0.2 cliente-x.tapingando.com.br
+
+# C. Consulta de E-mail (MX)
+# Verifica quem é o servidor de e-mail responsável.
+dig @172.16.0.2 tapingando.com.br MX
+
+# D. Consultas Reversas (IP para Nome)
+# Verifica a tradução invertida.
+dig @172.16.0.2 -x 172.16.0.2
+dig @172.16.0.2 -x 192.168.0.2
+
+# E. Teste Prático de Resolução
+# Confirma se o sistema operacional está usando o DNS corretamente.
+ping -c 4 www.tapingando.com.br
+ping -c 4 mail.tapingando.com.br
+
+---------------------------------------------------------
+ 2. TESTES DE DHCP (KEA DHCP)
+---------------------------------------------------------
+
+# A. Verificação do Serviço (Rodar no Servidor S)
+# Acompanha o log de entrega de IPs em tempo real.
+sudo tail -f /var/log/kea-dhcp4.log
+
+# Lê o arquivo que armazena as concessões (leases) ativas.
+sudo cat /var/lib/kea/kea-leases4.csv
+
+# B. Renovação de IP (Rodar nos Clientes X e Y)
+# Força o cliente a liberar o IP atual e pedir um novo.
+sudo dhclient -r eth0
+sudo dhclient -v eth0
+
+# C. Validação de IP e Rotas Recebidas (Rodar nos Clientes)
+# Mostra o IP que a máquina pegou.
+ip addr show eth0
+
+# Mostra a tabela de roteamento (deve ter o gateway entregue pelo DHCP).
+ip route
+
+# Verifica quais servidores DNS o cliente recebeu automaticamente.
+resolvectl status
+
+---------------------------------------------------------
+ 3. TESTES DE E-MAIL (SMTP E POP3/IMAP)
+---------------------------------------------------------
+
+# A. Verificação dos Serviços Básicos (Rodar no Servidor S)
+# Garante que Postfix (envio) e Dovecot (recebimento) estão rodando.
+sudo systemctl status postfix
+sudo systemctl status dovecot
+
+# B. Teste de Envio Local Rápido
+# Manda um e-mail direto do terminal (útil para validar rotas internas).
+echo "Mensagem de teste rápida" | mail -s "Teste Terminal" bruno@tapingando.com.br
+
+# C. Verificação de Diretório (Rodar no Servidor S)
+# Confirma fisicamente se o arquivo do e-mail foi criado na pasta do usuário.
+sudo ls -lR /home/bruno/Maildir/new/
+
+# D. Teste Manual de Envio via Telnet / SMTP (Porta 25)
+# Simula a conversa exata que um cliente de e-mail faz para enviar mensagem.
+telnet mail.tapingando.com.br 25
+# (Digite os comandos abaixo dentro do prompt do telnet:)
+# HELO cliente-x.tapingando.com.br
+# MAIL FROM: <ana@tapingando.com.br>
+# RCPT TO: <bruno@tapingando.com.br>
+# DATA
+# Subject: Teste manual de SMTP
+# Esta é a primeira linha da mensagem.
+# .
+# QUIT
+
+# E. Teste Manual de Leitura via Telnet / POP3 (Porta 110)
+# Simula a conexão para baixar a mensagem recebida.
+telnet mail.tapingando.com.br 110
+# (Digite os comandos abaixo dentro do prompt do telnet:)
+# USER bruno
+# PASS 123456
+# LIST
+# RETR 1
+# QUIT
+
+---------------------------------------------------------
+ 3,1. TESTES DE E-MAIL (SMTP E POP3/IMAP - COURIER)
+---------------------------------------------------------
+
+# A. Verificação dos Serviços Básicos (Rodar no Servidor S)
+# Garante que Postfix (envio) e Courier (recebimento) estão rodando.
+sudo systemctl status postfix
+sudo systemctl status courier-pop
+sudo systemctl status courier-authdaemon
+
+# B. Teste de Envio Local Rápido
+# Manda um e-mail direto do terminal (útil para validar rotas internas).
+echo "Mensagem de teste rápida" | mail -s "Teste Terminal" bruno@tapingando.com.br
+
+# C. Verificação de Diretório (Rodar no Servidor S)
+# Confirma fisicamente se o arquivo do e-mail foi criado na pasta do usuário.
+sudo ls -lR /home/bruno/Maildir/new/
+
+# D. Teste Manual de Envio via Telnet / SMTP (Porta 25)
+# Simula a conversa exata que um cliente de e-mail faz para enviar mensagem.
+telnet mail.tapingando.com.br 25
+# (Digite os comandos abaixo dentro do prompt do telnet:)
+# HELO cliente-x.tapingando.com.br
+# MAIL FROM: <ana@tapingando.com.br>
+# RCPT TO: <bruno@tapingando.com.br>
+# DATA
+# Subject: Teste manual de SMTP
+# Esta é a primeira linha da mensagem.
+# .
+# QUIT
+
+# E. Teste Manual de Leitura via Telnet / POP3 (Porta 110)
+# Simula a conexão para baixar a mensagem recebida.
+telnet mail.tapingando.com.br 110
+# (Digite os comandos abaixo dentro do prompt do telnet:)
+# USER bruno
+# PASS 123456
+# LIST
+# RETR 1
+# QUIT
+
+---------------------------------------------------------
+ 4. TESTES DO SERVIDOR WEB (WWW)
+---------------------------------------------------------
+
+# A. Verificação do Serviço (Rodar no Servidor S)
+# Garante que o Nginx está rodando e escutando na porta 80.
+sudo systemctl status nginx
+
+# B. Testes de Acesso em Modo Texto (Rodar nos Clientes)
+# Baixa o código HTML da página principal para garantir que o Nginx responde.
+curl http://www.tapingando.com.br
+curl http://intranet.tapingando.com.br
+
+# C. Teste Prático (Rodar nos Clientes com Interface Gráfica)
+# 1. Abra o navegador web (Firefox, Chrome, etc.).
+# 2. Acesse a URL: http://www.tapingando.com.br
+# Resultado esperado: A página "Intranet da Empresa Tapingando" deve carregar.
