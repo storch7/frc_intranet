@@ -16,8 +16,10 @@ EOF
 
 pon r1
 
-# Rotas estáticas: LAN#1 e rede do Laboratório, via o enlace PPP
+# Rota específica para a LAN #1
 ip route add 172.16.0.0/16 via 10.0.0.1 dev ppp0
-ip route add <REDE_LAB>/24 via 10.0.0.1 dev ppp0
+
+# Rota padrão: cobre a rede do Laboratório e a Internet, via R1
+ip route add default via 10.0.0.1 dev ppp0
 
 sysctl -w net.ipv4.ip_forward=1
